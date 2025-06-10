@@ -5,7 +5,7 @@ class Node {
   }
 }
 
-class LinkedList {
+export default class LinkedList {
   constructor() {
     this.head = null;
   }
@@ -96,7 +96,34 @@ class LinkedList {
       if (temp.value === value) {
         return true;
       }
+      temp = temp.nextNode;
     }
     return false;
+  }
+
+  find(value) {
+    if (!head) {
+      return null;
+    }
+    let temp = this.head;
+    let i = 0;
+    while (temp != null) {
+      if (temp.value === value) {
+        return i;
+      }
+      i++;
+      temp = temp.nextNode;
+    }
+    return false;
+  }
+
+  toString() {
+    let temp = this.head;
+    let toPrint = "";
+    while (temp != null) {
+      toPrint += "( " + temp.value + " ) -> ";
+    }
+    toPrint += "null";
+    return toPrint;
   }
 }
