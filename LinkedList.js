@@ -128,12 +128,16 @@ export default class LinkedList {
   }
 
   insertAt(value, index) {
+    if (index === 0) {
+      this.prepend(value);
+      return;
+    }
     if (!this.head) {
       return null;
     }
     let curr = this.head;
     let prev = null;
-    let i = 0;
+    let i = 1;
     while (i != index && curr) {
       i++;
       prev = curr;
