@@ -60,4 +60,43 @@ class LinkedList {
     }
     return temp;
   }
+
+  at(index) {
+    if (!head) {
+      return null;
+    }
+    let i = 0;
+    let temp = this.head;
+    while (i != index && temp != null) {
+      temp = temp.nextNode;
+      i++;
+    }
+    return temp;
+  }
+
+  pop() {
+    if (!head) {
+      return null;
+    }
+    let curr = this.head;
+    let prev = null;
+    while (curr.nextNode) {
+      prev = curr;
+      curr = curr.nextNode;
+    }
+    prev.nextNode = null;
+  }
+
+  contains(value) {
+    if (!head) {
+      return null;
+    }
+    let temp = this.head;
+    while (temp != null) {
+      if (temp.value === value) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
