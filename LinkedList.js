@@ -72,8 +72,10 @@ export default class LinkedList {
   }
 
   pop() {
-    if (!this.head) {
-      return null;
+    if (!this.head) return null;
+    if (!this.head.nextNode) {
+      this.head = null;
+      return;
     }
     let curr = this.head;
     let prev = null;
