@@ -12,8 +12,8 @@ export default class LinkedList {
 
   append(value) {
     const newNode = new Node(value);
-    if (!head) {
-      head = newNode;
+    if (!this.head) {
+      this.head = newNode;
       return;
     }
     let temp = this.head;
@@ -25,8 +25,8 @@ export default class LinkedList {
 
   prepend(value) {
     const newNode = new Node(value);
-    if (!head) {
-      head = newNode;
+    if (!this.head) {
+      this.head = newNode;
       return;
     }
     newNode.nextNode = this.head;
@@ -34,7 +34,7 @@ export default class LinkedList {
   }
 
   size() {
-    if (!head) {
+    if (!this.head) {
       return 0;
     }
     let temp = this.head;
@@ -51,7 +51,7 @@ export default class LinkedList {
   }
 
   tail() {
-    if (!head) {
+    if (!this.head) {
       return null;
     }
     let temp = this.head;
@@ -62,7 +62,7 @@ export default class LinkedList {
   }
 
   at(index) {
-    if (!head) {
+    if (!this.head) {
       return null;
     }
     let i = 0;
@@ -75,7 +75,7 @@ export default class LinkedList {
   }
 
   pop() {
-    if (!head) {
+    if (!this.head) {
       return null;
     }
     let curr = this.head;
@@ -88,7 +88,7 @@ export default class LinkedList {
   }
 
   contains(value) {
-    if (!head) {
+    if (!this.head) {
       return null;
     }
     let temp = this.head;
@@ -102,7 +102,7 @@ export default class LinkedList {
   }
 
   find(value) {
-    if (!head) {
+    if (!this.head) {
       return null;
     }
     let temp = this.head;
@@ -122,8 +122,47 @@ export default class LinkedList {
     let toPrint = "";
     while (temp != null) {
       toPrint += "( " + temp.value + " ) -> ";
+      temp = temp.nextNode;
     }
     toPrint += "null";
     return toPrint;
+  }
+
+  insertAt(value, index) {
+    if (!this.head) {
+      return null;
+    }
+    let curr = this.head;
+    let prev = null;
+    let i = 0;
+    while (i != index && curr) {
+      i++;
+      prev = curr;
+      curr = curr.nextNode;
+    }
+    if (!curr) {
+      return null;
+    }
+    const newNode = new Node(value);
+    newNode.nextNode = curr;
+    prev.nextNode = newNode;
+  }
+
+  removeAt(index) {
+    if (!this.head) {
+      return null;
+    }
+    let curr = this.head;
+    let prev = null;
+    let i = 0;
+    while (i != index && curr) {
+      i++;
+      prev = curr;
+      curr = curr.nextNode;
+    }
+    if (!curr) {
+      return null;
+    }
+    prev.nextNode = curr.nextNode;
   }
 }
