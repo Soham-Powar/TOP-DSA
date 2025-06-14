@@ -14,4 +14,19 @@ test.set("hat", "black");
 test.set("ice cream", "white");
 test.set("jacket", "blue");
 test.set("kite", "pink");
+console.log(test.capacity);
+
 test.set("lion", "golden");
+
+console.log(test.length());
+console.log(test.capacity);
+
+test.set("banana", "suiii");
+test.set("frog", "suiii");
+test.set("kite", "suiii");
+test.set("moon", "silver");
+
+console.log(test.capacity);
+
+test.set("kite", "sii");
+test.set("moon", "ser");

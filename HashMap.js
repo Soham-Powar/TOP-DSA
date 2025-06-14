@@ -48,11 +48,11 @@ export default class HashMap {
     const bucket = this.buckets[hashedKey];
 
     const index = bucket.findKey(key);
-    if (index) {
+    if (index !== -1) {
       bucket.removeAt(index);
       bucket.insertAt(key, value, index);
     } else {
-      bucket.append({ key, value });
+      bucket.append(key, value);
       this.size++;
     }
 
@@ -65,7 +65,7 @@ export default class HashMap {
     const hashedKey = this.hash(key);
     const bucket = this.buckets[hashedKey];
     const index = bucket.findKey(key);
-    if (index) {
+    if (index !== -1) {
       return bucket.at(index).value;
     }
     return null;
@@ -83,9 +83,9 @@ export default class HashMap {
     const hashedKey = this.hash(key);
     const bucket = this.buckets[hashedKey];
     const index = bucket.findKey(key);
-    if (index) {
+    if (index !== -1) {
       this.size--;
-      bucket.removeAt(index).value;
+      bucket.removeAt(index);
       return true;
     }
     return false;

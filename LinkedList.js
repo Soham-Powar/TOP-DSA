@@ -72,61 +72,43 @@ export default class LinkedList {
   }
 
   containsKey(key) {
-    if (!this.head) {
-      return null;
-    }
     let temp = this.head;
-    while (temp != null) {
-      if (temp.key === key) {
-        return true;
-      }
+    while (temp) {
+      if (temp.key === key) return true;
       temp = temp.nextNode;
     }
     return false;
   }
+
   contains(key, value) {
-    if (!this.head) {
-      return null;
-    }
     let temp = this.head;
-    while (temp != null) {
-      if (temp.value === value && temp.key === key) {
-        return true;
-      }
+    while (temp) {
+      if (temp.key === key && temp.value === value) return true;
       temp = temp.nextNode;
     }
     return false;
   }
 
   find(key, value) {
-    if (!this.head) {
-      return null;
-    }
     let temp = this.head;
     let i = 0;
-    while (temp != null) {
-      if (temp.value === value && key === temp.key) {
-        return i;
-      }
-      i++;
+    while (temp) {
+      if (temp.key === key && temp.value === value) return i;
       temp = temp.nextNode;
+      i++;
     }
-    return false;
+    return -1;
   }
+
   findKey(key) {
-    if (!this.head) {
-      return null;
-    }
     let temp = this.head;
     let i = 0;
-    while (temp != null) {
-      if (key === temp.key) {
-        return i;
-      }
-      i++;
+    while (temp) {
+      if (temp.key === key) return i;
       temp = temp.nextNode;
+      i++;
     }
-    return false;
+    return -1;
   }
 
   toString() {
