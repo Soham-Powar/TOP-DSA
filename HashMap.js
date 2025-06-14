@@ -23,38 +23,36 @@ export default class HashMap {
   }
 
   isAtMaxLoad() {
-    let maxLoad = this.LOAD_FACTOR * this.capacity;
-    if (this.size >= maxLoad) {
-      return true;
-    }
-    return false;
+    return this.size >= this.capacity * this.LOAD_FACTOR;
   }
 
   resize() {
     const oldBuckets = this.buckets;
+    this.capacity *= 2;
     this.buckets = Array.from(
-      { length: this.capacity * 2 },
+      { length: this.capacity },
       () => new LinkedList()
     );
-    this.capacity *= 2;
+    this.size = 0;
 
-    oldBuckets.forEach((bucket) => {
-      let i = 0;
-      while (i < bucket.size) {
-        this.buckets.set(bucket.at(i).key, bucket.at(i).value);
+    for (const bucket of oldBuckets) {
+      for (let i = 0; i < bucket.size(); i++) {
+        const node = bucket.at(i);
+        this.set(node.key, node.value);
       }
-    });
+    }
   }
 
   set(key, value) {
     const hashedKey = this.hash(key);
+    const bucket = this.buckets[hashedKey];
 
-    if (this.buckets[hashedKey].contains(key, value)) {
-      const itsIndex = this.buckets[hashedKey].find(key, value);
-      this.buckets[hashedKey].removeAt(itsIndex);
-      this.buckets[hashedKey].insertAt(key, value, itsIndex);
+    const index = bucket.findKey(key);
+    if (index) {
+      bucket.removeAt(index);
+      bucket.insertAt(key, value, index);
     } else {
-      this.buckets[hashedKey].append(value);
+      bucket.append({ key, value });
       this.size++;
     }
 
@@ -65,9 +63,10 @@ export default class HashMap {
 
   get(key) {
     const hashedKey = this.hash(key);
-    if (this.buckets[hashedKey].containsKey(key)) {
-      const index = this.buckets[hashedKey].findKey(key);
-      return this.buckets[hashedKey].at(index).value;
+    const bucket = this.buckets[hashedKey];
+    const index = bucket.findKey(key);
+    if (index) {
+      return bucket.at(index).value;
     }
     return null;
   }
@@ -82,56 +81,56 @@ export default class HashMap {
 
   remove(key) {
     const hashedKey = this.hash(key);
-    if (this.buckets[hashedKey].containsKey(key)) {
-      const index = this.buckets[hashedKey].findKey(key);
-      return this.buckets[hashedKey].removeAt(index).value;
+    const bucket = this.buckets[hashedKey];
+    const index = bucket.findKey(key);
+    if (index) {
+      this.size--;
+      bucket.removeAt(index).value;
+      return true;
     }
     return false;
   }
 
   length() {
-    let len = 0;
-    this.buckets.forEach((bucket) => {
-      len += bucket.size();
-    });
+    return this.size;
   }
 
   clear() {
-    this.buckets.forEach((bucket) => {
-      bucket.head = null;
-    });
+    this.buckets = Array.from(
+      { length: this.capacity },
+      () => new LinkedList()
+    );
+    this.size = 0;
   }
 
   keys() {
-    let keys = [];
-    this.buckets.forEach((bucket) => {
-      let i = 0;
-      while (i < bucket.size()) {
+    const keys = [];
+    for (const bucket of this.buckets) {
+      for (let i = 0; i < bucket.size(); i++) {
         keys.push(bucket.at(i).key);
       }
-    });
+    }
     return keys;
   }
 
   values() {
-    let values = [];
-    this.buckets.forEach((bucket) => {
-      let i = 0;
-      while (i < bucket.size()) {
+    const values = [];
+    for (const bucket of this.buckets) {
+      for (let i = 0; i < bucket.size(); i++) {
         values.push(bucket.at(i).value);
       }
-    });
+    }
     return values;
   }
 
   entries() {
-    let entries = [];
-    this.buckets.forEach((bucket) => {
-      let i = 0;
-      while (i < bucket.size()) {
-        entries.push([bucket.at(i).key, bucket.at(i).value]);
+    const entries = [];
+    for (const bucket of this.buckets) {
+      for (let i = 0; i < bucket.size(); i++) {
+        const node = bucket.at(i);
+        entries.push([node.key, node.value]);
       }
-    });
+    }
     return entries;
   }
 }
