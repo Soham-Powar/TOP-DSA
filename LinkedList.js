@@ -87,13 +87,13 @@ export default class LinkedList {
     prev.nextNode = null;
   }
 
-  contains(key, value) {
+  contains(key) {
     if (!this.head) {
       return null;
     }
     let temp = this.head;
     while (temp != null) {
-      if (temp.value === value && temp.key === key) {
+      if (temp.key === key) {
         return true;
       }
       temp = temp.nextNode;
