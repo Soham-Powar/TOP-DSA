@@ -25,12 +25,7 @@ export default class LinkedList {
   }
 
   prepend(key, value) {
-    const newNode = new Node(key, value);
-    if (!this.head) {
-      this.head = newNode;
-      return;
-    }
-    newNode.nextNode = this.head;
+    const newNode = new Node(key, value, this.head);
     this.head = newNode;
   }
 
@@ -65,26 +60,15 @@ export default class LinkedList {
     }
     let i = 0;
     let temp = this.head;
-    while (i != index && temp != null) {
+    while (i < index && temp != null) {
       temp = temp.nextNode;
       i++;
     }
-    return temp;
+    return temp || null;
   }
 
   pop() {
-    if (!this.head) return null;
-    if (!this.head.nextNode) {
-      this.head = null;
-      return;
-    }
-    let curr = this.head;
-    let prev = null;
-    while (curr.nextNode) {
-      prev = curr;
-      curr = curr.nextNode;
-    }
-    prev.nextNode = null;
+    return this.removeAt(this.size() - 1);
   }
 
   containsKey(key) {
@@ -161,40 +145,31 @@ export default class LinkedList {
       this.prepend(key, value);
       return;
     }
-    if (!this.head) {
-      return null;
-    }
-    let curr = this.head;
-    let prev = null;
-    let i = 1;
-    while (i != index && curr) {
-      i++;
-      prev = curr;
-      curr = curr.nextNode;
-    }
-    if (!curr) {
-      return null;
-    }
-    const newNode = new Node(key, value);
-    newNode.nextNode = curr;
+
+    let prev = this.at(index - 1);
+    if (!prev) return null;
+
+    const newNode = new Node(key, value, prev.nextNode);
     prev.nextNode = newNode;
   }
 
   removeAt(index) {
-    if (!this.head) {
-      return null;
+    if (!this.head) return null;
+
+    if (index === 0) {
+      const removed = this.head;
+      this.head = this.head.nextNode;
+      return removed;
     }
-    let curr = this.head;
-    let prev = null;
-    let i = 0;
-    while (i != index && curr) {
-      i++;
-      prev = curr;
-      curr = curr.nextNode;
-    }
-    if (!curr) {
-      return null;
-    }
-    prev.nextNode = curr.nextNode;
+
+    let prev = this.at(index - 1);
+    if (!prev || !prev.nextNode) return null;
+
+    const removed = prev.nextNode;
+    prev.nextNode = prev.nextNode.nextNode;
+    return removed;
+  }
+  clear() {
+    this.head = null;
   }
 }
