@@ -144,6 +144,44 @@ class Tree {
       if (current.right) queue.push(current.right);
     }
   }
+
+  inOrder(callback, curr = this.root) {
+    if (typeof callback !== "function") {
+      throw new Error("Callback function is required");
+    }
+
+    if (!curr) {
+      return;
+    }
+
+    this.inOrder(callback, curr.left);
+    callback(curr);
+    this.inOrder(callback, curr.right);
+  }
+
+  preOrder(callback, curr = this.root) {
+    if (typeof callback !== "function") {
+      throw new Error("Callback function is required");
+    }
+
+    if (!curr) return;
+
+    callback(curr);
+    this.preOrder(callback, curr.left);
+    this.preOrder(callback, curr.right);
+  }
+
+  postOrder(callback, curr = this.root) {
+    if (typeof callback !== "function") {
+      throw new Error("Callback function is required");
+    }
+
+    if (!curr) return;
+
+    this.postOrder(callback, curr.left);
+    this.postOrder(callback, curr.right);
+    callback(curr);
+  }
 }
 
 const myBST = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
@@ -161,6 +199,6 @@ myBST.delete(21);
 myBST.delete(28);
 myBST.delete(32);
 myBST.prettyPrint(myBST.root);
-myBST.levelOrder((node) => {
+myBST.inOrder((node) => {
   console.log(node.data);
 });
