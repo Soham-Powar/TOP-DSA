@@ -55,6 +55,11 @@ class Tree {
   insert(value) {
     let newNode = new BST_Node(value);
 
+    if (this.root === null) {
+      this.root = newNode;
+      return;
+    }
+
     let prev = null;
     let temp = this.root;
 
@@ -73,10 +78,55 @@ class Tree {
       prev.left = newNode;
     }
   }
+
+  getInOrderSuccessor(curr) {
+    curr = curr.right;
+    while (curr != null && curr.left != null) {
+      curr = curr.left;
+    }
+    return curr;
+  }
+
+  delete(value, root = this.root) {
+    if (root === null) {
+      return root;
+    }
+
+    if (value < root.data) {
+      root.left = this.delete(value, root.left);
+    } else if (value > root.data) {
+      root.right = this.delete(value, root.right);
+    } else {
+      // Node to be removed found. (3 cases)
+
+      // No child or one child
+      if (root.left === null) {
+        return root.right;
+      }
+      if (root.right === null) {
+        return root.left;
+      }
+      // 2 children
+      let succ = this.getInOrderSuccessor(root);
+      root.data = succ.data;
+      root.right = this.delete(succ.data, root.right);
+    }
+    return root;
+  }
 }
 
 const myBST = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-myBST.prettyPrint(myBST.root);
-myBST.insert(24);
+// myBST.prettyPrint(myBST.root);
+// myBST.insert(24);
+myBST.insert(22);
 myBST.insert(21);
+myBST.insert(28);
+myBST.insert(27);
+myBST.insert(24);
+myBST.insert(32);
+myBST.prettyPrint(myBST.root);
+myBST.delete(23);
+myBST.delete(21);
+myBST.delete(28);
+myBST.delete(32);
 myBST.prettyPrint(myBST.root);
