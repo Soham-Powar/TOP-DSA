@@ -1,12 +1,17 @@
-import LinkedList from "./LinkedList.js";
-// example uses class syntax - adjust as necessary
-const list = new LinkedList();
+import HashMap from "./HashMap.js";
 
-list.append("dog");
-list.append("cat");
-list.append("parrot");
-list.append("hamster");
-list.append("snake");
-list.append("turtle");
+// console.log(list.toString());
+const test = new HashMap(); // or HashMap() if using a factory
 
-console.log(list.toString());
+test.set("apple", "red");
+test.set("banana", "yellow");
+test.set("carrot", "orange");
+test.set("dog", "brown");
+test.set("elephant", "gray");
+test.set("frog", "green");
+test.set("grape", "purple");
+test.set("hat", "black");
+test.set("ice cream", "white");
+test.set("jacket", "blue");
+test.set("kite", "pink");
+test.set("lion", "golden");

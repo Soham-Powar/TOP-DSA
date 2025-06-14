@@ -1,4 +1,4 @@
-import LinkedList from "./LinkedList";
+import LinkedList from "./LinkedList.js";
 
 export default class HashMap {
   constructor() {
@@ -22,6 +22,30 @@ export default class HashMap {
     return hashCode % this.capacity;
   }
 
+  isAtMaxLoad() {
+    let maxLoad = this.LOAD_FACTOR * this.capacity;
+    if (this.size >= maxLoad) {
+      return true;
+    }
+    return false;
+  }
+
+  resize() {
+    const oldBuckets = this.buckets;
+    this.buckets = Array.from(
+      { length: this.capacity * 2 },
+      () => new LinkedList()
+    );
+    this.capacity *= 2;
+
+    oldBuckets.forEach((bucket) => {
+      let i = 0;
+      while (i < bucket.size) {
+        this.buckets.set(bucket.at(i).key, bucket.at(i).value);
+      }
+    });
+  }
+
   set(key, value) {
     const hashedKey = this.hash(key);
 
@@ -34,8 +58,8 @@ export default class HashMap {
       this.size++;
     }
 
-    if (isAtMaxLoad()) {
-      resize();
+    if (this.isAtMaxLoad()) {
+      this.resize();
     }
   }
 
@@ -109,29 +133,5 @@ export default class HashMap {
       }
     });
     return entries;
-  }
-
-  isAtMaxLoad() {
-    let maxLoad = this.LOAD_FACTOR * this.capacity;
-    if (size >= maxLoad) {
-      return true;
-    }
-    return false;
-  }
-
-  resize() {
-    const oldBuckets = this.buckets;
-    this.buckets = Array.from(
-      { length: this.capacity * 2 },
-      () => new LinkedList()
-    );
-    this.capacity *= 2;
-
-    oldBuckets.forEach((bucket) => {
-      let i = 0;
-      while (i < bucket.size) {
-        this.buckets.set(bucket.at(i).key, bucket.at(i).value);
-      }
-    });
   }
 }
