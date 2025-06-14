@@ -24,35 +24,92 @@ export default class HashMap {
 
   set(key, value) {
     const hashedKey = this.hash(key);
-    // For that hashedKey its the first element.
-    if (this.buckets[hashedKey].head == null) {
+
+    if (this.buckets[hashedKey].contains(key, value)) {
+      const itsIndex = this.buckets[hashedKey].find(key, value);
+      this.buckets[hashedKey].removeAt(itsIndex);
+      this.buckets[hashedKey].insertAt(key, value, itsIndex);
+    } else {
       this.buckets[hashedKey].append(value);
       this.size++;
-      return;
     }
-    // 2 cases - hashedKey same and key same
-
-    // Key same
-    if (this.buckets[hashedKey].contains(key)) {
-      const itsIndex = this.buckets[hashedKey].find(key);
-      this.buckets[hashedKey].removeAt(itsIndex);
-      this.buckets[hashedKey].insertAt(value, itsIndex);
-      return;
-    }
-
-    // Key not same - hashedKey value same
-    this.buckets[hashedKey].append(value);
-    this.size++;
 
     if (isAtMaxLoad()) {
       resize();
     }
   }
 
-  //   get(key) {
-  // 	const hashedKey = this.hash(key);
-  // 	if(this.buckets[hashedKey].contains())
-  //   }
+  get(key) {
+    const hashedKey = this.hash(key);
+    if (this.buckets[hashedKey].containsKey(key)) {
+      const index = this.buckets[hashedKey].findKey(key);
+      return this.buckets[hashedKey].at(index).value;
+    }
+    return null;
+  }
+
+  has(key) {
+    const hashedKey = this.hash(key);
+    if (this.buckets[hashedKey].containsKey(key)) {
+      return true;
+    }
+    return false;
+  }
+
+  remove(key) {
+    const hashedKey = this.hash(key);
+    if (this.buckets[hashedKey].containsKey(key)) {
+      const index = this.buckets[hashedKey].findKey(key);
+      return this.buckets[hashedKey].removeAt(index).value;
+    }
+    return false;
+  }
+
+  length() {
+    let len = 0;
+    this.buckets.forEach((bucket) => {
+      len += bucket.size();
+    });
+  }
+
+  clear() {
+    this.buckets.forEach((bucket) => {
+      bucket.head = null;
+    });
+  }
+
+  keys() {
+    let keys = [];
+    this.buckets.forEach((bucket) => {
+      let i = 0;
+      while (i < bucket.size()) {
+        keys.push(bucket.at(i).key);
+      }
+    });
+    return keys;
+  }
+
+  values() {
+    let values = [];
+    this.buckets.forEach((bucket) => {
+      let i = 0;
+      while (i < bucket.size()) {
+        values.push(bucket.at(i).value);
+      }
+    });
+    return values;
+  }
+
+  entries() {
+    let entries = [];
+    this.buckets.forEach((bucket) => {
+      let i = 0;
+      while (i < bucket.size()) {
+        entries.push([bucket.at(i).key, bucket.at(i).value]);
+      }
+    });
+    return entries;
+  }
 
   isAtMaxLoad() {
     let maxLoad = this.LOAD_FACTOR * this.capacity;

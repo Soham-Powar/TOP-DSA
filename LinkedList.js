@@ -87,6 +87,19 @@ export default class LinkedList {
     prev.nextNode = null;
   }
 
+  containsKey(key) {
+    if (!this.head) {
+      return null;
+    }
+    let temp = this.head;
+    while (temp != null) {
+      if (temp.key === key) {
+        return true;
+      }
+      temp = temp.nextNode;
+    }
+    return false;
+  }
   contains(key, value) {
     if (!this.head) {
       return null;
@@ -109,6 +122,21 @@ export default class LinkedList {
     let i = 0;
     while (temp != null) {
       if (temp.value === value && key === temp.key) {
+        return i;
+      }
+      i++;
+      temp = temp.nextNode;
+    }
+    return false;
+  }
+  findKey(key) {
+    if (!this.head) {
+      return null;
+    }
+    let temp = this.head;
+    let i = 0;
+    while (temp != null) {
+      if (key === temp.key) {
         return i;
       }
       i++;
