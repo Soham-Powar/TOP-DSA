@@ -113,6 +113,20 @@ class Tree {
     }
     return root;
   }
+
+  find(value) {
+    let temp = this.root;
+    while (temp !== null) {
+      if (value < temp.data) {
+        temp = temp.left;
+      } else if (value > temp.data) {
+        temp = temp.right;
+      } else {
+        return temp;
+      }
+    }
+    return null;
+  }
 }
 
 const myBST = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
