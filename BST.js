@@ -127,6 +127,23 @@ class Tree {
     }
     return null;
   }
+
+  levelOrder(callback) {
+    if (typeof callback !== "function") {
+      throw new Error("Callback function is required");
+    }
+
+    const queue = [];
+    if (this.root) queue.push(this.root);
+
+    while (queue.length !== 0) {
+      const current = queue.shift();
+      callback(current);
+
+      if (current.left) queue.push(current.left);
+      if (current.right) queue.push(current.right);
+    }
+  }
 }
 
 const myBST = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
@@ -144,3 +161,6 @@ myBST.delete(21);
 myBST.delete(28);
 myBST.delete(32);
 myBST.prettyPrint(myBST.root);
+myBST.levelOrder((node) => {
+  console.log(node.data);
+});
