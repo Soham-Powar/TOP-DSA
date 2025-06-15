@@ -147,7 +147,7 @@ class Tree {
 
   inOrder(callback, curr = this.root) {
     if (typeof callback !== "function") {
-      throw new Error("Callback function is required");
+      throw new Error("Callback function is must be passed.");
     }
 
     if (!curr) {
@@ -161,7 +161,7 @@ class Tree {
 
   preOrder(callback, curr = this.root) {
     if (typeof callback !== "function") {
-      throw new Error("Callback function is required");
+      throw new Error("Callback function is must be passed.");
     }
 
     if (!curr) return;
