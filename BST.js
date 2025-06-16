@@ -211,6 +211,22 @@ class Tree {
     }
     return null;
   }
+
+  isBalanced(node = this.root) {
+    function getHeight(curr) {
+      if (!curr) return -1;
+      return 1 + Math.max(getHeight(curr.left), getHeight(curr.right));
+    }
+
+    if (!node) return true;
+
+    const leftHeight = getHeight(node.left);
+    const rightHeight = getHeight(node.right);
+
+    if (Math.abs(leftHeight - rightHeight) > 1) return false;
+
+    return this.isBalanced(node.left) && this.isBalanced(node.right);
+  }
 }
 
 const myBST = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
