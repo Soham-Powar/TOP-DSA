@@ -194,6 +194,23 @@ class Tree {
 
     return getHeight(node);
   }
+
+  depth(value) {
+    let temp = this.root;
+    let depth = 0;
+    while (temp !== null) {
+      if (value < temp.data) {
+        depth++;
+        temp = temp.left;
+      } else if (value > temp.data) {
+        depth++;
+        temp = temp.right;
+      } else {
+        return depth;
+      }
+    }
+    return null;
+  }
 }
 
 const myBST = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
