@@ -227,6 +227,14 @@ class Tree {
 
     return this.isBalanced(node.left) && this.isBalanced(node.right);
   }
+
+  rebalance() {
+    let arr = [];
+    this.inOrder((arg) => {
+      arr.push(arg.data);
+    });
+    this.root = this.buildTree(arr);
+  }
 }
 
 const myBST = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
