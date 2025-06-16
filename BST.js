@@ -12,7 +12,7 @@ class BST_Node {
   }
 }
 
-class Tree {
+export default class Tree {
   constructor(array) {
     const removedDups = [...new Set(array)];
     const sortedArray = removedDups.sort((a, b) => a - b);
