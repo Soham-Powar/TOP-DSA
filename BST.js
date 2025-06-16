@@ -182,6 +182,18 @@ class Tree {
     this.postOrder(callback, curr.right);
     callback(curr);
   }
+
+  height(value) {
+    const node = this.find(value);
+    if (!node) return null;
+
+    function getHeight(curr) {
+      if (!curr) return -1;
+      return 1 + Math.max(getHeight(curr.left), getHeight(curr.right));
+    }
+
+    return getHeight(node);
+  }
 }
 
 const myBST = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
